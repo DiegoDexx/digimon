@@ -19,7 +19,15 @@ public class Digimon {
     String fotovicDig;
     String fotoderDig;
     
-    Digimon(){
-        
+    Digimon(String nombreDig, String nombreevolucionDig, int nivelDig, int defensaDig, int ataqueDig, int tipoDig, String fotoDig, String fotovicDig, String fotoderDig){
+        this.nombreDig = nombreDig;
+        this.nombreevolucionDig = nombreevolucionDig;
+        this.nivelDig = nivelDig;
+        this.defensaDig = defensaDig;
+        this.ataqueDig = ataqueDig;
+        this.tipoDig = tipoDig;
+        this.fotoDig = fotoDig;
+        this.fotovicDig = fotovicDig;
+        this.fotoderDig = fotoderDig;
     }
 }
