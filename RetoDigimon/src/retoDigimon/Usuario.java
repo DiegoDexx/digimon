@@ -4,8 +4,6 @@
  */
 package retoDigimon;
 import Sleer1.SLeer1;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
 
 /**
@@ -15,13 +13,12 @@ import java.util.HashMap;
 public class Usuario {
     private int codigousu;
     private static String contraseñausu[]= new String[3];
-    static String nombreusu[] = new String[3];
+    static String nombreusu[]= new String[3];;
     static int partidasgan[] = new int[3];;
     static int evoluciones[]= new int[3];
     
     Usuario(){
-        
-       
+         
        partidasgan[0]=1999;
        partidasgan[1]=2000;
        partidasgan[2]=7151;
@@ -34,12 +31,12 @@ public class Usuario {
     
      public static void creaUsuario() {
          
-         for ( int j=0; j<nombreusu.length; j++) {
-            nombreusu[j]= SLeer1.datoString("Inserta el nombre de usuario: ");
-            contraseñausu[j]= SLeer1.datoString("Inserta la contraseña: ");
+         for ( int i=0; i<nombreusu.length; i++) {
+            nombreusu[i]= SLeer1.datoString("Inserta el nombre de usuario: ");
+            contraseñausu[i]= SLeer1.datoString("Inserta la contraseña: ");
             
             HashMap<String, String> pideuyc = new HashMap<String, String>();
-            pideuyc.put(nombreusu[0],contraseñausu[0]); 
+            pideuyc.put(nombreusu[i],contraseñausu[i]); 
             
             System.out.println("***USUARIO Y CONTRASEÑA*** :" +pideuyc);
         }
@@ -47,12 +44,13 @@ public class Usuario {
      
      
     public void getcodynom(int code) { 
+        
         this.codigousu=code;
- for ( int j=0; j<nombreusu.length; j++){  
-        code= (int)(Math.random()*100000+1);
-        HashMap<String, Integer> nombreycod = new HashMap<String, Integer>();
-        nombreycod.put(nombreusu[j], code); 
-        System.out.println("\nUsuario y codigo: "+nombreycod);
+        for ( int j=0; j<nombreusu.length; j++){  
+            code= (int)(Math.random()*100000+1);
+            HashMap<String, Integer> nombreycod = new HashMap<String, Integer>();
+            nombreycod.put(nombreusu[j], code); 
+            System.out.println("\nUsuario y codigo: "+nombreycod);
     }
     }
     
@@ -60,9 +58,11 @@ public class Usuario {
     
     public static void getPartidasGanadas() {
         
-    for ( int j=2; j<nombreusu.length; j++ ){
-        for (int k=0; k<partidasgan.length; k++) {  
-        System.out.println("Partidas ganadas de "+nombreusu[j]+":"+partidasgan[k]);
+        for ( int j=0; j<nombreusu.length; j++ ){
+            for (int k=2; k<partidasgan.length; k++) {  
+            HashMap<String, Integer> hashpart = new HashMap<String, Integer>();
+            hashpart.put("Partidas ganadas de "+nombreusu[j]+": ",+partidasgan[k]);
+            System.out.println("\n"+hashpart);
     }   
     }
     }    
@@ -70,9 +70,12 @@ public class Usuario {
     
     
     public static void getEvoluciones() {
-            for ( int j=2; j<nombreusu.length; j++ ) {
-        for (int k=0; k<evoluciones.length; k++) {  
-        System.out.println("Digimons evolucionados de "+nombreusu[j]+":"+evoluciones[0]);
+        
+        for ( int j=0; j<nombreusu.length; j++ ) {
+            for (int k=2; k<evoluciones.length; k++) {  
+            HashMap<String, Integer> hash_evo = new HashMap<String, Integer>();
+            hash_evo.put("Partidas ganadas de "+nombreusu[j]+": ",+evoluciones[k]);
+            System.out.println("\n"+hash_evo);
     }   
     }
     } 

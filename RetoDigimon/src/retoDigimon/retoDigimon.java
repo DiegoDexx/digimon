@@ -18,9 +18,8 @@ public class retoDigimon {
         
         System.out.println("----Panel de usuarios digimon----");
         Usuario.creaUsuario();
-        us.getcodynom(0);
         
-       
+        us.getcodynom(0);
         
         System.out.println("\n---Partidas Ganadas---");
         Usuario.getPartidasGanadas();
