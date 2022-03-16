@@ -4,6 +4,8 @@
  */
 package retoDigimon;
 
+import Methods.Methods;
+
 /**
  *
  * @author Rubén
@@ -14,20 +16,45 @@ public class Digimon {
     int nivelDig;
     int defensaDig;
     int ataqueDig;
-    int tipoDig;
+    int tipoDig; // Pasar a ENUM
     String fotoDig;
     String fotovicDig;
     String fotoderDig;
+
+    public void setNombreDig(String nombreDig) { this.nombreDig = nombreDig; }
+    public void setNombreevolucionDig(String nombreevolucionDig) { this.nombreevolucionDig = nombreevolucionDig;}
+    public void setNivelDig(int nivelDig) { this.nivelDig = nivelDig; }
+    public void setDefensaDig(int defensaDig) { this.defensaDig = defensaDig; }
+    public void setAtaqueDig(int ataqueDig) {this.ataqueDig = ataqueDig; }
+    public void setTipoDig(int tipoDig) { this.tipoDig = tipoDig; }
+    public void setFotoDig(String fotoDig) { this.fotoDig = fotoDig;}
+    public void setFotovicDig(String fotovicDig) {this.fotovicDig = fotovicDig;}
+    public void setFotoderDig(String fotoderDig) { this.fotoderDig = fotoderDig;}
+
+    public String getNombreDig() { return nombreDig; }
+    public String getNombreevolucionDig() { return nombreevolucionDig; }
+    public int getNivelDig() { return nivelDig; }
+    public int getDefensaDig() { return defensaDig; }
+    public int getAtaqueDig() { return ataqueDig; }
+    public int getTipoDig() { return tipoDig; }
+    public String getFotoDig() { return fotoDig; }
+    public String getFotovicDig() {return fotovicDig; }
+    public String getFotoderDig() { return fotoderDig; }
     
-    Digimon(String nombreDig, String nombreevolucionDig, int nivelDig, int defensaDig, int ataqueDig, int tipoDig, String fotoDig, String fotovicDig, String fotoderDig){
-        this.nombreDig = nombreDig;
-        this.nombreevolucionDig = nombreevolucionDig;
-        this.nivelDig = nivelDig;
-        this.defensaDig = defensaDig;
-        this.ataqueDig = ataqueDig;
-        this.tipoDig = tipoDig;
-        this.fotoDig = fotoDig;
-        this.fotovicDig = fotovicDig;
-        this.fotoderDig = fotoderDig;
+    Digimon(){
+        this.nombreDig = Methods.datoNombre("Nombre de digimón: ","El nombre del digimon tiene una longitud máxima de 30 y no puede contener numeros");
+        this.nombreevolucionDig = Methods.datoNombre("Nombre de su digievolución: ","El nombre de su digievolución tiene una longitud máxima de 30 y no puede contener numeros");
+        this.nivelDig = Methods.datoNivel("Nivel de digimón: ","El nivel del digimon debe ser 1,2 o 3");;
+        this.ataqueDig = Methods.datoInt("Ataque del digimón: ");
+        this.defensaDig = Methods.datoInt("Defensa del digimón: ");
+        this.tipoDig = Methods.datoInt("Tipo del digimón: ");
+       
+        this.fotoDig = "hola";
+        this.fotovicDig = "hola";
+        this.fotoderDig = "hola";
     }
+    
+    
+    
+    
 }
