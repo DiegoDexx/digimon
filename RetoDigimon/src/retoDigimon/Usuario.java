@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package retoDigimon;
+import Sleer1.SLeer1;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -13,15 +14,13 @@ import java.util.HashMap;
  */
 public class Usuario {
     private int codigousu;
-    private String contraseñausu;
-    static String nombreusu[]= new String[3];
+    private static String contraseñausu[]= new String[3];
+    static String nombreusu[] = new String[3];
     static int partidasgan[] = new int[3];;
     static int evoluciones[]= new int[3];
     
     Usuario(){
-       nombreusu[0]="Rubencito";
-       nombreusu[1]="javi";
-       nombreusu[2]="imma";
+        
        
        partidasgan[0]=1999;
        partidasgan[1]=2000;
@@ -33,49 +32,54 @@ public class Usuario {
        
     }
     
-    public void getcodynom(int cod1, int cod2, int cod3) { 
-        this.codigousu=cod1;
-        this.codigousu=cod2;
-        this.codigousu=cod3;
-        
-        cod1= (int)(Math.random()*100000+1);
-        cod2= (int)(Math.random()*100000+1);
-        cod3= (int)(Math.random()*100000+1);
-        
+     public static void creaUsuario() {
+         
+         for ( int j=0; j<nombreusu.length; j++) {
+            nombreusu[j]= SLeer1.datoString("Inserta el nombre de usuario: ");
+            contraseñausu[j]= SLeer1.datoString("Inserta la contraseña: ");
+            
+            HashMap<String, String> pideuyc = new HashMap<String, String>();
+            pideuyc.put(nombreusu[0],contraseñausu[0]); 
+            
+            System.out.println("***USUARIO Y CONTRASEÑA*** :" +pideuyc);
+        }
+    }
+     
+     
+    public void getcodynom(int code) { 
+        this.codigousu=code;
+ for ( int j=0; j<nombreusu.length; j++){  
+        code= (int)(Math.random()*100000+1);
         HashMap<String, Integer> nombreycod = new HashMap<String, Integer>();
-        nombreycod.put(nombreusu[0], cod1);
-        nombreycod.put(nombreusu[1], cod2);
-        nombreycod.put(nombreusu[2], cod3);
-        
-        System.out.println("Usuario y codigo: "+nombreycod);
+        nombreycod.put(nombreusu[j], code); 
+        System.out.println("\nUsuario y codigo: "+nombreycod);
+    }
     }
     
     
-    public static void setContraseñas() { 
-        ArrayList <String> Contraseña = new ArrayList <String>();
-            Contraseña.add("ZXDCCD");
-            Contraseña.add("12WDD");
-            Contraseña.add("12344");
-    
-            System.out.println("Contraseña de "+nombreusu[0]+":"+Contraseña.get(0));
-            System.out.println("contraseña de "+nombreusu[1]+":"+Contraseña.get(1));
-            System.out.println("contraseña de "+nombreusu[2]+":"+Contraseña.get(2));
-          
-    }
     
     public static void getPartidasGanadas() {
         
-            System.out.println("Partidas ganadas de "+nombreusu[0]+":"+partidasgan[0]);
-            System.out.println("Partidas ganadas de "+nombreusu[1]+":"+partidasgan[1]);
-            System.out.println("Partidas ganadas de "+nombreusu[2]+":"+partidasgan[2]);
-        
+    for ( int j=2; j<nombreusu.length; j++ ){
+        for (int k=0; k<partidasgan.length; k++) {  
+        System.out.println("Partidas ganadas de "+nombreusu[j]+":"+partidasgan[k]);
+    }   
     }
+    }    
+        
+    
     
     public static void getEvoluciones() {
-            System.out.println("Digimons evolucionados de "+nombreusu[0]+":"+evoluciones[0]);
-            System.out.println("Digimons evolucionados de "+nombreusu[1]+":"+evoluciones[1]);
-            System.out.println("Digimons evolucionados de "+nombreusu[2]+":"+evoluciones[2]);
+            for ( int j=2; j<nombreusu.length; j++ ) {
+        for (int k=0; k<evoluciones.length; k++) {  
+        System.out.println("Digimons evolucionados de "+nombreusu[j]+":"+evoluciones[0]);
+    }   
     }
-}
+    } 
+    
+    
+   }
+    
+
     
  

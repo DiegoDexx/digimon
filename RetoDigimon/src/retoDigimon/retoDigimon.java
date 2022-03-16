@@ -1,4 +1,5 @@
 package retoDigimon;
+import Sleer1.SLeer1;
 import java.util.ArrayList;
 
 /**
@@ -14,10 +15,12 @@ public class retoDigimon {
         
         Usuario us= new Usuario();
         
+        
         System.out.println("----Panel de usuarios digimon----");
-        us.getcodynom(0, 0, 0);
-        System.out.println("\n----Contraseñas----");
-        Usuario.setContraseñas();
+        Usuario.creaUsuario();
+        us.getcodynom(0);
+        
+       
         
         System.out.println("\n---Partidas Ganadas---");
         Usuario.getPartidasGanadas();
