@@ -46,6 +46,7 @@ public class Usuario {
     public void getcodynom(int code) { 
         
         this.codigousu=code;
+        
         for ( int j=0; j<nombreusu.length; j++){  
             code= (int)(Math.random()*100000+1);
             HashMap<String, Integer> nombreycod = new HashMap<String, Integer>();
@@ -53,7 +54,6 @@ public class Usuario {
             System.out.println("\nUsuario y codigo: "+nombreycod);
     }
     }
-    
     
     
     public static void getPartidasGanadas() {
@@ -67,7 +67,6 @@ public class Usuario {
     }
     }    
         
-    
     
     public static void getEvoluciones() {
         
