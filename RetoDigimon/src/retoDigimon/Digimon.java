@@ -5,6 +5,10 @@
 package retoDigimon;
 
 import Methods.Methods;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -54,7 +58,22 @@ public class Digimon {
         this.fotoderDig = "hola";
     }
     
-    
-    
+    public void crearDigimon() throws SQLException{
+        conexionBD classConexionBD = new conexionBD();
+        Connection con = classConexionBD.getConexion();
+        Statement statement = con.createStatement();
+        String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig,fotoDig,fotovicDig,fotoderDig) VALUES (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement ps =  con.prepareStatement(consulta);
+        ps.setString(1, getNombreDig());
+        ps.setString(2, getNombreevolucionDig());
+        ps.setInt(3, getTipoDig());
+        ps.setInt(4, getDefensaDig());
+        ps.setInt(5, getAtaqueDig());
+        ps.setInt(6, getNivelDig());
+        ps.setString(7, getFotoDig());
+        ps.setString(8, getFotovicDig());
+        ps.setString(9, getFotoderDig());
+        ps.executeUpdate();
+    }
     
 }

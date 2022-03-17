@@ -1,7 +1,5 @@
 package retoDigimon;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Iterator;
 /**
  *
  * @author Rubén, Inma, Diego & Jaime
@@ -10,26 +8,14 @@ public class retoDigimon {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
         conexionBD classConexionBD = new conexionBD();
         Connection con = classConexionBD.getConexion();
-        
-        
-        Digimon d1 = new Digimon();
-        Statement statement = con.createStatement();
-        String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig,fotoDig,fotovicDig,fotoderDig) VALUES (?,?,?,?,?,?,?,?,?)";
-        PreparedStatement ps =  con.prepareStatement(consulta);
-        ps.setString(1, d1.getNombreDig());
-        ps.setString(2, d1.getNombreevolucionDig());
-        ps.setInt(3, d1.getTipoDig());
-        ps.setInt(4, d1.getDefensaDig());
-        ps.setInt(5, d1.getAtaqueDig());
-        ps.setInt(6, d1.getNivelDig());
-        ps.setString(7, d1.getFotoDig());
-        ps.setString(8, d1.getFotovicDig());
-        ps.setString(9, d1.getFotoderDig());
-        ps.executeUpdate();
+
+        MenuInicial menu = new MenuInicial();
+        menu.pideMenu(menu.mostrarMenu());
         
         /*String consulta = "SELECT * FROM digimon";
         PreparedStatement ps =  con.prepareStatement(consulta);
