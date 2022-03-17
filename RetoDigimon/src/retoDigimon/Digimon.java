@@ -5,11 +5,7 @@
 package retoDigimon;
 
 import Methods.Methods;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 /**
  *
  * @author Rubén
@@ -45,14 +41,17 @@ public class Digimon {
     public String getFotovicDig() {return fotovicDig; }
     public String getFotoderDig() { return fotoderDig; }
     
-    Digimon(){
-        this.nombreDig = Methods.datoNombre("Nombre de digimón: ","El nombre del digimon tiene una longitud máxima de 30 y no puede contener numeros");
-        this.nombreevolucionDig = Methods.datoNombre("Nombre de su digievolución: ","El nombre de su digievolución tiene una longitud máxima de 30 y no puede contener numeros");
-        this.nivelDig = Methods.datoNivel("Nivel de digimón: ","El nivel del digimon debe ser 1,2 o 3");;
-        this.ataqueDig = Methods.datoInt("Ataque del digimón: ");
-        this.defensaDig = Methods.datoInt("Defensa del digimón: ");
-        this.tipoDig = Methods.datoInt("Tipo del digimón: ");
-       
+    Digimon() throws SQLException{
+        System.out.println("\n####################################");
+        System.out.println(" CREAR DIGIMON");
+        System.out.println("####################################");
+        this.nombreDig = Methods.datoNombre("\tNombre de digimón: ","\tEl nombre del digimon tiene una longitud máxima de 30 y no puede contener numeros");
+        this.nombreevolucionDig = Methods.datoNombreEvolucion("\tNombre de su digievolución: ","\tEl nombre de su digievolución tiene una longitud máxima de 30 y no puede contener numeros",this.nombreDig);
+        this.nivelDig = Methods.datoNivel("\tNivel de digimón: ","\tEl nivel del digimon debe ser 1,2 o 3");;
+        this.ataqueDig = Methods.datoInt("\tAtaque del digimón: ");
+        this.defensaDig = Methods.datoInt("\tDefensa del digimón: ");
+        this.tipoDig = Methods.datoInt("\tTipo del digimón: ");
+        
         this.fotoDig = "hola";
         this.fotovicDig = "hola";
         this.fotoderDig = "hola";
@@ -61,7 +60,7 @@ public class Digimon {
     public void crearDigimon() throws SQLException{
         conexionBD classConexionBD = new conexionBD();
         Connection con = classConexionBD.getConexion();
-        Statement statement = con.createStatement();
+        //Statement statement = con.createStatement();
         String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig,fotoDig,fotovicDig,fotoderDig) VALUES (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ps.setString(1, getNombreDig());
@@ -74,6 +73,21 @@ public class Digimon {
         ps.setString(8, getFotovicDig());
         ps.setString(9, getFotoderDig());
         ps.executeUpdate();
+        System.out.println("\tSe ha agregado a "+getNombreDig()+" correctamente\n\n");
     }
     
+    public static void listarDigimones() throws SQLException{
+        conexionBD classConexionBD = new conexionBD();
+        Connection con = classConexionBD.getConexion();
+        String consulta = "SELECT * FROM digimon";
+        PreparedStatement ps =  con.prepareStatement(consulta);
+        ResultSet rs = ps.executeQuery(consulta);
+        System.out.println("\n####################################");
+        System.out.println(" LISTADO DE DIGIMONES");
+        System.out.println("####################################");
+        while(rs.next()){
+        System.out.println("\t"+rs.getString("nombreDig"));
+        }
+        System.out.println("####################################\n\n");
+    }
 }

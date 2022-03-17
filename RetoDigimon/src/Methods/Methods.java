@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 package Methods;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.sql.*;
+import java.util.*;
+import retoDigimon.conexionBD;
 /**
  *
  * @author usuario
@@ -192,7 +193,7 @@ public class Methods {
     }
     
     // DIGIMON
-    public static String datoNombre(String mensaje, String error) {
+    public static String datoNombre(String mensaje, String error) throws SQLException {
         boolean leido = false;
         String dato = null;
         do {
@@ -201,12 +202,66 @@ public class Methods {
                 System.out.print(mensaje);
                 dato = teclado.nextLine();
                 char[] caracteres = dato.toCharArray();
-                if(dato.length() <= 30){ leido = true; }else{ System.err.println(error+"\n"); leido = false; }
-                for(int i = 0; i < dato.length(); i++){
-                    if(Character.isDigit(caracteres[i])){
-                        System.err.println(error+"\n"); leido = false;
+                if(dato.length() <= 30 && dato.length() > 0){
+                    conexionBD classConexionBD = new conexionBD();
+                    Connection con = classConexionBD.getConexion();
+
+                    String consulta = "SELECT * FROM digimon WHERE nombreDig='"+dato+"';";
+                    PreparedStatement ps =  con.prepareStatement(consulta);
+                    ResultSet rs = ps.executeQuery(consulta);
+                    if(rs.next()){
+                    System.err.println("\t"+dato+" ya existe en la base de datos\n"); leido = false;
+                    }else{
+                        leido = true;
+                        for(int i = 0; i < dato.length(); i++){
+                            if(Character.isDigit(caracteres[i])){
+                                System.err.println("\t"+error+"\n"); leido = false; break;
+                            }
+                        }
                     }
-                }
+                }else{ System.err.println("\t"+error+"\n"); leido = false; }
+            } catch (InputMismatchException e) {
+                System.err.println("Error, por favor introduce dato de nuevo...");
+                limpiarTeclado();
+            }
+        } while (leido == false);
+        return dato;
+    }
+    
+    public static String datoNombreEvolucion(String mensaje, String error, String nombreDig) throws SQLException {
+        boolean leido = false;
+        String dato = null;
+        do {
+            try {
+                dato = null;
+                System.out.print(mensaje);
+                dato = teclado.nextLine();
+                char[] caracteres = dato.toCharArray();
+                if(dato.length() <= 30 && dato.length() > 0){
+                    conexionBD classConexionBD = new conexionBD();
+                    Connection con = classConexionBD.getConexion();
+
+                    String consulta = "SELECT * FROM digimon WHERE nombreDig='"+dato+"';";
+                    PreparedStatement ps =  con.prepareStatement(consulta);
+                    ResultSet rs = ps.executeQuery(consulta);
+                    if(!rs.next()){
+                        if(!dato.equals(nombreDig)) { System.err.println("\t"+dato+" no existe en la base de datos\n"); leido = false; }else{
+                          leido = true;
+                            for(int i = 0; i < dato.length(); i++){
+                                if(Character.isDigit(caracteres[i])){
+                                    System.err.println("\t"+error+"\n"); leido = false; break;
+                                }
+                            }  
+                        }
+                    }else{
+                        leido = true;
+                            for(int i = 0; i < dato.length(); i++){
+                                if(Character.isDigit(caracteres[i])){
+                                    System.err.println("\t"+error+"\n"); leido = false; break;
+                                }
+                            } 
+                    }
+                }else{ System.err.println("\t"+error+"\n"); leido = false; }
             } catch (InputMismatchException e) {
                 System.err.println("Error, por favor introduce dato de nuevo...");
                 limpiarTeclado();
