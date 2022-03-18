@@ -109,7 +109,6 @@ public class Methods {
                 System.err.println("Error, por favor introduce dato de nuevo...");
                 limpiarTeclado();
             }
-            System.out.println(dato);
         } while (leido == false);
         return dato;
     }
@@ -219,7 +218,7 @@ public class Methods {
                             }
                         }
                     }
-                }else{ System.err.println("\t"+error+"\n"); leido = false; }
+                }else{ System.err.println(error+"\n"); leido = false; }
             } catch (InputMismatchException e) {
                 System.err.println("Error, por favor introduce dato de nuevo...");
                 limpiarTeclado();
@@ -236,7 +235,6 @@ public class Methods {
                 dato = null;
                 System.out.print(mensaje);
                 dato = teclado.nextLine();
-                char[] caracteres = dato.toCharArray();
                 if(dato.length() <= 30 && dato.length() > 0){
                     conexionBD classConexionBD = new conexionBD();
                     Connection con = classConexionBD.getConexion();
@@ -247,19 +245,76 @@ public class Methods {
                     if(!rs.next()){
                         if(!dato.equals(nombreDig)) { System.err.println("\t"+dato+" no existe en la base de datos\n"); leido = false; }else{
                           leido = true;
-                            for(int i = 0; i < dato.length(); i++){
-                                if(Character.isDigit(caracteres[i])){
-                                    System.err.println("\t"+error+"\n"); leido = false; break;
-                                }
-                            }  
                         }
                     }else{
                         leido = true;
-                            for(int i = 0; i < dato.length(); i++){
+                    }
+                }else{ System.err.println("\t"+error+"\n"); leido = false; }
+            } catch (InputMismatchException e) {
+                System.err.println("Error, por favor introduce dato de nuevo...");
+                limpiarTeclado();
+            }
+        } while (leido == false);
+        return dato;
+    }
+    
+    public static String datoNombreModificar(String mensaje, String error) throws SQLException {
+        boolean leido = false;
+        String dato = null;
+        do {
+            try {
+                dato = null;
+                System.out.print(mensaje);
+                dato = teclado.nextLine();
+                if(dato.length() <= 30 && dato.length() > 0){
+                    conexionBD classConexionBD = new conexionBD();
+                    Connection con = classConexionBD.getConexion();
+
+                    String consulta = "SELECT * FROM digimon WHERE nombreDig='"+dato+"';";
+                    PreparedStatement ps =  con.prepareStatement(consulta);
+                    ResultSet rs = ps.executeQuery(consulta);
+                    if(!rs.next()){
+                    System.err.println("\t"+dato+" ya existe en la base de datos\n"); leido = false;
+                    }else{
+                        leido = true;
+                    }
+                }else{ System.err.println("\t"+error+"\n"); leido = false; }
+            } catch (InputMismatchException e) {
+                System.err.println("Error, por favor introduce dato de nuevo...");
+                limpiarTeclado();
+            }
+        } while (leido == false);
+        return dato;
+    }
+    
+    public static String datoModificarNombre(String mensaje, String error, String nombreDig) throws SQLException {
+        boolean leido = false;
+        String dato = null;
+        do {
+            try {
+                dato = null;
+                System.out.print(mensaje);
+                dato = teclado.nextLine();
+                char[] caracteres = dato.toCharArray();
+                if(dato.length() <= 30 && dato.length() > 0){
+                    conexionBD classConexionBD = new conexionBD();
+                    Connection con = classConexionBD.getConexion();
+
+                    String consulta = "SELECT * FROM digimon WHERE nombreDig='"+dato+"';";
+                    PreparedStatement ps =  con.prepareStatement(consulta);
+                    ResultSet rs = ps.executeQuery(consulta);
+                    if(rs.next()){
+                        if(!dato.equals(nombreDig)) { System.err.println("\t"+dato+" no existe en la base de datos\n"); leido = false; }
+                        else{
+                          leido = true;
+                        }
+                    }else{
+                        leido = true;
+                        for(int i = 0; i < dato.length(); i++){
                                 if(Character.isDigit(caracteres[i])){
                                     System.err.println("\t"+error+"\n"); leido = false; break;
                                 }
-                            } 
+                        } 
                     }
                 }else{ System.err.println("\t"+error+"\n"); leido = false; }
             } catch (InputMismatchException e) {
@@ -285,5 +340,31 @@ public class Methods {
             }
         } while (leido == false);
         return num;
+    }
+    
+    public static String datoTipo(String mensaje,String[] arrayTipos) {
+        limpiarTeclado();
+        boolean leido = false;
+        String dato = null;
+        do {
+            try {
+                dato = null;
+                System.out.print("\tTipos de digimon: ");
+                for(int i = 0; i < arrayTipos.length-1; i++){
+                    System.out.print(arrayTipos[i]);
+                    if(i != arrayTipos.length-2){ System.out.print(", "); }
+                }
+                System.out.print("\n"+mensaje);
+                dato = teclado.nextLine();
+                for(int i = 0; i < arrayTipos.length-1; i++){
+                    if(arrayTipos[i].toUpperCase().equals(dato.toUpperCase())){ leido = true; }
+                }
+                if(leido == false){ System.err.println("\tERROR"); }
+            } catch (InputMismatchException e) {
+                System.err.println("Error, por favor introduce dato de nuevo...");
+                limpiarTeclado();
+            }
+        } while (leido == false);
+        return dato;
     }
 }

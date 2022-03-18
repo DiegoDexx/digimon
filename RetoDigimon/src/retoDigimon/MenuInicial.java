@@ -5,8 +5,7 @@
  */
 package retoDigimon;
 import Methods.Methods;
-import static Methods.Methods.limpiarTeclado;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
@@ -26,6 +25,7 @@ public class MenuInicial {
         System.out.println("\t 8) Eliminar usuario\n");
         System.out.println("\t 9) Reiniciar base de datos");
         System.out.println("\t10) Salir");
+        //Añadir buscar usuario, mostrar sus datos y sus digimones
         int opcion = Methods.datoInt("Introduce la opción deseada: ");
         return opcion;
     }
@@ -46,6 +46,18 @@ public class MenuInicial {
                         pideMenu(mostrarMenu());
                         break;
                         
+            case 4:     d.eliminarDigimon();
+                        pideMenu(mostrarMenu());
+                        break;
+            
+            case 9:     conexionBD classConexionBD = new conexionBD();
+                        Connection con = classConexionBD.getConexion();   
+                        String consultaTruncar = "TRUNCATE TABLE digimon";
+                        PreparedStatement psEliminar = con.prepareStatement(consultaTruncar);
+                        psEliminar.executeUpdate();
+                        System.out.println("Tabla 'Digimon' ha sido eliminado correctamente.\n");
+                        break;
+
             case 10:    break;
             default:    System.err.print("Debe introducir una opción del 1 al 10\n\n");
                         pideMenu(mostrarMenu());
