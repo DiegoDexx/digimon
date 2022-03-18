@@ -41,7 +41,9 @@ public class Digimon {
     public String getFotovicDig() {return fotovicDig; }
     public String getFotoderDig() { return fotoderDig; }
     
-    Digimon() throws SQLException{
+    Digimon(){ }
+    
+    public void crearDigimon() throws SQLException{
         System.out.println("\n####################################");
         System.out.println(" CREAR DIGIMON");
         System.out.println("####################################");
@@ -55,9 +57,7 @@ public class Digimon {
         this.fotoDig = "hola";
         this.fotovicDig = "hola";
         this.fotoderDig = "hola";
-    }
-    
-    public void crearDigimon() throws SQLException{
+
         conexionBD classConexionBD = new conexionBD();
         Connection con = classConexionBD.getConexion();
         //Statement statement = con.createStatement();
@@ -90,4 +90,9 @@ public class Digimon {
         }
         System.out.println("####################################\n\n");
     }
+    
+    public static void modificarDigimon() throws SQLException{
+        
+    }
+    
 }

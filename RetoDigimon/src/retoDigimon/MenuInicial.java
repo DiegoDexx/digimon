@@ -31,15 +31,18 @@ public class MenuInicial {
     }
     
     public void pideMenu(int opcion) throws SQLException{
+        Methods.limpiarTeclado();
+        Digimon d = new Digimon();
         switch (opcion){
-            case 1:     Methods.limpiarTeclado();
-                        Digimon.listarDigimones();
+            case 1:     d.listarDigimones();
                         pideMenu(mostrarMenu());
                         break;
                         
-            case 2:     Methods.limpiarTeclado();
-                        Digimon d2 = new Digimon();
-                        d2.crearDigimon();
+            case 2:     d.crearDigimon();
+                        pideMenu(mostrarMenu());
+                        break;
+            
+            case 3:     d.modificarDigimon();
                         pideMenu(mostrarMenu());
                         break;
                         
