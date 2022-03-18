@@ -5,6 +5,7 @@
  */
 package retoDigimon;
 import Methods.Methods;
+import static Methods.Methods.limpiarTeclado;
 import java.sql.SQLException;
 
 /**
@@ -30,12 +31,23 @@ public class MenuInicial {
     }
     
     public void pideMenu(int opcion) throws SQLException{
+        Methods.limpiarTeclado();
+        Digimon d = new Digimon();
         switch (opcion){
-            case 2:     Digimon d1 = new Digimon();
-                        d1.crearDigimon();
+            case 1:     d.listarDigimones();
+                        pideMenu(mostrarMenu());
                         break;
+                        
+            case 2:     d.crearDigimon();
+                        pideMenu(mostrarMenu());
+                        break;
+            
+            case 3:     d.modificarDigimon();
+                        pideMenu(mostrarMenu());
+                        break;
+                        
             case 10:    break;
-            default:    System.out.print("\n\n\nDebe introducir una opción del 1 al 10");
+            default:    System.err.print("Debe introducir una opción del 1 al 10\n\n");
                         pideMenu(mostrarMenu());
         } 
     }

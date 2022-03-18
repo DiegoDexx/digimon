@@ -11,8 +11,8 @@ public class retoDigimon {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
-        conexionBD classConexionBD = new conexionBD();
-        Connection con = classConexionBD.getConexion();
+        //conexionBD classConexionBD = new conexionBD();
+        //Connection con = classConexionBD.getConexion();
 
         MenuInicial menu = new MenuInicial();
         menu.pideMenu(menu.mostrarMenu());
