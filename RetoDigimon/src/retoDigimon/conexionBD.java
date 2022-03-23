@@ -11,7 +11,7 @@ import java.sql.DriverManager;
  */
 public class conexionBD {
 
-    public static final String URL = "jdbc:mysql://localhost:3306/digimon";
+    public static final String URL = "jdbc:mysql://localhost:3306/digimon2";
     public static final String USER = "root";
     public static final String CLAVE = "123";
 

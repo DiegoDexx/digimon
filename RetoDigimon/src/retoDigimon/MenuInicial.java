@@ -33,31 +33,71 @@ public class MenuInicial {
     public void pideMenu(int opcion) throws SQLException{
         Methods.limpiarTeclado();
         Digimon d = new Digimon();
+        Usuario us = new Usuario();
+        conexionBD classConexionBD = new conexionBD();
+        Connection con = classConexionBD.getConexion();
         switch (opcion){
-            case 1:     d.listarDigimones();
+            case 1:     d.listarDigimones(con);
                         pideMenu(mostrarMenu());
                         break;
                         
-            case 2:     d.crearDigimon();
+            case 2:     d.crearDigimon(con);
                         pideMenu(mostrarMenu());
                         break;
             
-            case 3:     d.modificarDigimon();
+            case 3:     d.modificarDigimon(con);
                         pideMenu(mostrarMenu());
                         break;
                         
-            case 4:     d.eliminarDigimon();
+            case 4:     d.eliminarDigimon(con);
+                        pideMenu(mostrarMenu());
+                        break;
+                        
+            case 5:     us.listarUsuarios(con);
+                        pideMenu(mostrarMenu());
+                        break;
+                        
+            case 6:     us.creaUsuario(con);
                         pideMenu(mostrarMenu());
                         break;
             
-            case 9:     conexionBD classConexionBD = new conexionBD();
-                        Connection con = classConexionBD.getConexion();   
-                        String consultaTruncar = "TRUNCATE TABLE digimon";
-                        PreparedStatement psEliminar = con.prepareStatement(consultaTruncar);
-                        psEliminar.executeUpdate();
-                        System.out.println("Tabla 'Digimon' ha sido eliminado correctamente.\n");
-                        break;
-
+            case 7:     us.modificarUsu(con);
+                        pideMenu(mostrarMenu());
+                        break;  
+                        
+            case 8:     us.eliminarUsuario(con);
+                        pideMenu(mostrarMenu());
+                        break;  
+                        
+            case 9:     System.out.println("\t\n¿Deseas realmente vaciar la base de datos");
+                        System.out.println("\t 1) Si");
+                        System.out.println("\t 2) No");
+                        int opcionSeleccionada = Methods.datoInt("\t Introduce la opción deseada: ");
+                        switch(opcionSeleccionada){
+                            case 1: String consultaTruncar = "DELETE FROM tiene";
+                                    PreparedStatement psTruncar = con.prepareStatement(consultaTruncar);
+                                    psTruncar.executeUpdate();
+                                    System.out.println("\tTabla 'Tiene' ha sido vaciada correctamente.");
+                                    consultaTruncar = "DELETE FROM digimon";
+                                    psTruncar = con.prepareStatement(consultaTruncar);
+                                    psTruncar.executeUpdate();
+                                    System.out.println("\tTabla 'Digimon' ha sido vaciada correctamente.");
+                                    consultaTruncar = "DELETE FROM usuario";
+                                    psTruncar = con.prepareStatement(consultaTruncar);
+                                    psTruncar.executeUpdate();
+                                    /*consultaTruncar = "TRUNCATE TABLE usuario";
+                                    psTruncar = con.prepareStatement(consultaTruncar);
+                                    psTruncar.executeUpdate();*/
+                                    System.out.println("\nTabla 'Usuario' ha sido vaciada correctamente.\n");
+                                    break;
+                                    
+                            case 2: pideMenu(mostrarMenu());
+                                    break;
+                            
+                            default:System.err.print("\tDebe introducir 1 o 2\n\n");
+                                    break;
+                        }
+                        
             case 10:    break;
             default:    System.err.print("Debe introducir una opción del 1 al 10\n\n");
                         pideMenu(mostrarMenu());

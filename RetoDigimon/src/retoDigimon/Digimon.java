@@ -5,7 +5,12 @@
 package retoDigimon;
 
 import Methods.Methods;
+import static java.lang.String.format;
 import java.sql.*;
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 /**
  *
  * @author Rubén
@@ -17,9 +22,9 @@ public class Digimon {
     int defensaDig;
     int ataqueDig;
     String tipoDig; // Pasar a ENUM
-    String fotoDig;
-    String fotovicDig;
-    String fotoderDig;
+    String fotoDig = "No usamos";
+    String fotovicDig = "No usamos";
+    String fotoderDig = "No usamos";
     static String[] tiposDeDigimon = {"acuatico","arma","baba","diablillo","parásito","angel","fuego"};
 
     public void setNombreDig(String nombreDig) { this.nombreDig = nombreDig; }
@@ -41,28 +46,23 @@ public class Digimon {
     public String getFotoDig() { return fotoDig; }
     public String getFotovicDig() {return fotovicDig; }
     public String getFotoderDig() { return fotoderDig; }
+    public String[] getTiposDeDigimon() { return tiposDeDigimon; }
     
     Digimon(){ }
     
-    public void crearDigimon() throws SQLException{
+    public void crearDigimon(Connection con) throws SQLException{
         System.out.println("\n####################################");
         System.out.println(" CREAR DIGIMON");
         System.out.println("####################################");
-        this.nombreDig = Methods.datoNombre("\tNombre de digimón: ","\tEl nombre del digimon tiene una longitud máxima de 30 y no puede contener numeros");
-        this.nombreevolucionDig = Methods.datoNombreEvolucion("\tNombre de su digievolución: ","\tEl nombre de su digievolución tiene una longitud máxima de 30 y no puede contener numeros",this.nombreDig);
-        this.nivelDig = Methods.datoNivel("\tNivel de digimón: ","\tEl nivel del digimon debe ser 1,2 o 3");;
-        this.ataqueDig = Methods.datoInt("\tAtaque del digimón: ");
-        this.defensaDig = Methods.datoInt("\tDefensa del digimón: ");
-        this.tipoDig = Methods.datoTipo("\tTipo del digimón: ",this.tiposDeDigimon);
         
-        this.fotoDig = "hola";
-        this.fotovicDig = "hola";
-        this.fotoderDig = "hola";
+        setNombreDig(Methods.datoNombre("\tNombre de digimón: "));
+        setNombreevolucionDig(Methods.datoNombreEvolucion("\tNombre de su digievolución: ","",getNombreDig()));
+        setTipoDig(Methods.datoTipo("\tTipo del digimón: ",getTiposDeDigimon(),""));
+        setNivelDig(Methods.datoNivel("\tNivel de digimón: ","\tEl nivel del digimon debe ser 1,2 o 3"));
+        setAtaqueDig(Methods.datoEstadisticas("\tAtaque del digimón: ",""));
+        setDefensaDig(Methods.datoEstadisticas("\tDefensa del digimón: ",""));
 
-        conexionBD classConexionBD = new conexionBD();
-        Connection con = classConexionBD.getConexion();
-        //Statement statement = con.createStatement();
-        String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig,fotoDig,fotovicDig,fotoderDig) VALUES (?,?,?,?,?,?,?,?,?)";
+        String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig) VALUES (?,?,?,?,?,?)";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ps.setString(1, getNombreDig());
         ps.setString(2, getNombreevolucionDig());
@@ -70,36 +70,33 @@ public class Digimon {
         ps.setInt(4, getDefensaDig());
         ps.setInt(5, getAtaqueDig());
         ps.setString(6, getTipoDig());
-        ps.setString(7, getFotoDig());
-        ps.setString(8, getFotovicDig());
-        ps.setString(9, getFotoderDig());
         ps.executeUpdate();
         System.out.println("\tSe ha agregado a "+getNombreDig()+" correctamente\n\n");
         ps.close();
         con.close();
     }
     
-    public static void listarDigimones() throws SQLException{
-        conexionBD classConexionBD = new conexionBD();
-        Connection con = classConexionBD.getConexion();
+    public void listarDigimones(Connection con) throws SQLException{
         String consulta = "SELECT * FROM digimon";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
-        System.out.println("\n####################################");
+        
+        System.out.println("\n###########################################################################");
         System.out.println(" LISTADO DE DIGIMONES");
-        System.out.println("####################################");
+        System.out.println("###########################################################################");
+        System.out.printf("%10s %20s %5s %5s %5s %5s", "NOMBRE DE DIGIMON", "NOMBRE DE EVOLUCION", "TIPO DE DIGIMON", "NIVEL", "ATAQUE", "DEFENSA");
+
         while(rs.next()){
-        System.out.println("\t"+rs.getString("nombreDig"));
+            System.out.println();
+            System.out.format("%17s %20s %15s %5d %6d %7d", rs.getString("nombreDig"), rs.getString("nombreevolucionDig"), rs.getString("tipoDig"), rs.getInt("nivelDig"), rs.getInt("ataqueDig"), rs.getInt("defensaDig"));
         }
-        System.out.println("####################################\n\n");
+        System.out.println("\n###########################################################################\n\n");
         ps.close();
         con.close();
     }
     
-    public void modificarDigimon() throws SQLException{
-        conexionBD classConexionBD = new conexionBD();
-        Connection con = classConexionBD.getConexion();
-        String nombreDigimonIntroducido = Methods.datoNombreModificar("\n\tIntroduce el digimon a modificar: ", "ERROR");
+    public void modificarDigimon(Connection con) throws SQLException{
+        String nombreDigimonIntroducido = Methods.datoNombreModificar("\tIntroduce el digimon a modificar: ");
         String consulta = "SELECT * FROM digimon WHERE nombreDig ='"+nombreDigimonIntroducido+"';";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
@@ -110,9 +107,6 @@ public class Digimon {
             setAtaqueDig(rs.getInt("ataqueDig"));
             setDefensaDig(rs.getInt("defensaDig"));
             setTipoDig(rs.getString("tipoDig"));
-            setFotoDig("hola");
-            setFotovicDig("hola");
-            setFotoderDig("hola");
         }
         int opcionSeleccionada;
         do {
@@ -123,18 +117,18 @@ public class Digimon {
             System.out.println("\t\t 4) Defensa");
             System.out.println("\t\t 5) Tipo\n");
             System.out.println("\t\t 6) Guardar cambios");
-            opcionSeleccionada = Methods.datoInt("\tIntroduce la opción deseada: ");
+            opcionSeleccionada = Methods.datoInt("\t\tIntroduce la opción deseada: ");
             Methods.limpiarTeclado();
             switch (opcionSeleccionada) {
-                case 1: setNombreDig(Methods.datoModificarNombre("\t\tNombre: "+getNombreDig()+" ---> ","ERROR",getNombreDig()));
+                case 1: setNombreDig(Methods.datoModificarNombre("\t\tNombre: "+getNombreDig()+" ---> ",getNombreDig()));
                         break;
-                case 2: setNombreevolucionDig(Methods.datoNombreEvolucion("\t\tNombre digievolución: "+getNombreevolucionDig()+" ---> ", "ERROR",getNombreevolucionDig()));
+                case 2: setNombreevolucionDig(Methods.datoNombreEvolucion("\t\tNombre digievolución: "+getNombreevolucionDig()+" ---> ","\t",getNombreevolucionDig()));
                         break;
-                case 3: setAtaqueDig(Methods.datoInt("\t\tAtaque: "+getAtaqueDig()+" ---> "));
+                case 3: setAtaqueDig(Methods.datoEstadisticas("\t\tAtaque: "+getAtaqueDig()+" ---> ","\t"));
                         break;
-                case 4: setDefensaDig(Methods.datoInt("\t\tDefensa: "+getDefensaDig()+" ---> "));
+                case 4: setDefensaDig(Methods.datoEstadisticas("\t\tDefensa: "+getDefensaDig()+" ---> ","\t"));
                         break;      
-                case 5: setTipoDig(Methods.datoTipo("\t\tTipo: "+getTipoDig()+" ---> ",this.tiposDeDigimon));
+                case 5: setTipoDig(Methods.datoTipo("\t\tTipo: "+getTipoDig()+" ---> ",getTiposDeDigimon(),"\t"));
                         break;
                 case 6: String consultaModificar = "UPDATE digimon SET nombreDig ='"+getNombreDig()+"',nombreevolucionDig ='"+getNombreevolucionDig()+"',ataqueDig ="+getAtaqueDig()+",defensaDig ="+getDefensaDig()+",tipoDig ='"+getTipoDig()+"' WHERE nombreDig ='"+nombreDigimonIntroducido+"'";
                         PreparedStatement psModificar = con.prepareStatement(consultaModificar);
@@ -148,10 +142,9 @@ public class Digimon {
         con.close();
     }
     
-    public void eliminarDigimon() throws SQLException{
-        conexionBD classConexionBD = new conexionBD();
-        Connection con = classConexionBD.getConexion();
-        String nombreDigimonEliminar = Methods.datoNombreModificar("\n\tIntroduce el digimon a eliminar: ", "ERROR");
+    public void eliminarDigimon(Connection con) throws SQLException{
+
+        String nombreDigimonEliminar = Methods.datoNombreModificar("\tIntroduce el digimon a eliminar: ");
         
         String consulta = "SELECT * FROM digimon WHERE nombreDig ='"+nombreDigimonEliminar+"';";
         PreparedStatement ps =  con.prepareStatement(consulta);
