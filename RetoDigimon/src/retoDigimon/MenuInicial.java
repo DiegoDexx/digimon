@@ -9,7 +9,7 @@ import java.sql.*;
 
 /**
  *
- * @author inmag
+ * @author Rubén, Inma, Diego & Jaime
  */
 public class MenuInicial {
     
