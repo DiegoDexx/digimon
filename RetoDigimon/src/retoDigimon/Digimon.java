@@ -5,15 +5,10 @@
 package retoDigimon;
 
 import Methods.Methods;
-import static java.lang.String.format;
 import java.sql.*;
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 /**
  *
- * @author Rubén
+ * @author Rubén, Inma, Diego & Jaime
  */
 public class Digimon {
     String nombreDig;
@@ -21,7 +16,7 @@ public class Digimon {
     int nivelDig;
     int defensaDig;
     int ataqueDig;
-    String tipoDig; // Pasar a ENUM
+    String tipoDig; 
     String fotoDig = "No usamos";
     String fotovicDig = "No usamos";
     String fotoderDig = "No usamos";
@@ -55,13 +50,15 @@ public class Digimon {
         System.out.println(" CREAR DIGIMON");
         System.out.println("####################################");
         
+        //Solicitamos los datos del nuevo Digimon
         setNombreDig(Methods.datoNombre("\tNombre de digimón: "));
         setNombreevolucionDig(Methods.datoNombreEvolucion("\tNombre de su digievolución: ","",getNombreDig()));
         setTipoDig(Methods.datoTipo("\tTipo del digimón: ",getTiposDeDigimon(),""));
         setNivelDig(Methods.datoNivel("\tNivel de digimón: ","\tEl nivel del digimon debe ser 1,2 o 3"));
         setAtaqueDig(Methods.datoEstadisticas("\tAtaque del digimón: ",""));
         setDefensaDig(Methods.datoEstadisticas("\tDefensa del digimón: ",""));
-
+        
+        //Realizamos la consulta para introducir los valores del nuevo Digimon
         String consulta = "INSERT INTO digimon (nombreDig,nombreevolucionDig,nivelDig,defensaDig,ataqueDig,tipoDig) VALUES (?,?,?,?,?,?)";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ps.setString(1, getNombreDig());
@@ -77,10 +74,12 @@ public class Digimon {
     }
     
     public void listarDigimones(Connection con) throws SQLException{
+        //Consulta para que obtener todos los datos de mis digimones
         String consulta = "SELECT * FROM digimon";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
         
+        //Creación de tabla manual para mostrar los digimones con sus características
         System.out.println("\n###########################################################################");
         System.out.println(" LISTADO DE DIGIMONES");
         System.out.println("###########################################################################");
@@ -96,10 +95,13 @@ public class Digimon {
     }
     
     public void modificarDigimon(Connection con) throws SQLException{
+        //pedir al usuario el digimon que desea modificar. 
+        //Este debe ser igual a alguno de la columna nombreDig de la tabla digimon
         String nombreDigimonIntroducido = Methods.datoNombreModificar("\tIntroduce el digimon a modificar: ");
         String consulta = "SELECT * FROM digimon WHERE nombreDig ='"+nombreDigimonIntroducido+"';";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
+        //si encuentra algún Digimon que establezca los valores de ese digimon al objeto digimon
         if(rs.next()){
             setNombreDig(rs.getString("nombreDig"));
             setNombreevolucionDig(rs.getString("nombreevolucionDig"));
@@ -119,6 +121,7 @@ public class Digimon {
             System.out.println("\t\t 6) Guardar cambios");
             opcionSeleccionada = Methods.datoInt("\t\tIntroduce la opción deseada: ");
             Methods.limpiarTeclado();
+            //según la opción seleccionada cambiamos uno u otro atributos del Digimon
             switch (opcionSeleccionada) {
                 case 1: setNombreDig(Methods.datoModificarNombre("\t\tNombre: "+getNombreDig()+" ---> ",getNombreDig()));
                         break;
@@ -145,11 +148,12 @@ public class Digimon {
     public void eliminarDigimon(Connection con) throws SQLException{
 
         String nombreDigimonEliminar = Methods.datoNombreModificar("\tIntroduce el digimon a eliminar: ");
-        
+        //Buscamos el digimon que desea eliminar en la columna nombreDig de la tabla digimon
         String consulta = "SELECT * FROM digimon WHERE nombreDig ='"+nombreDigimonEliminar+"';";
         PreparedStatement ps =  con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
         int opcionSeleccionada;
+        //si existe algún digimon con el nombre introducido previamente, decidir si borrar
         if(rs.next()){
             System.out.println("\t\t¿Deseas realmente eliminar el digimon "+nombreDigimonEliminar+"?");
             System.out.println("\t\t 1) Si");
