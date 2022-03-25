@@ -175,7 +175,7 @@ public class Usuario {
              opt2=Methods.datoInt("Introduzca la opción a ejecutar: "); 
              Methods.limpiarTeclado();
         switch(opt2){
-             case 1: String consultaEliminar = "DELETE FROM usuario WHERE nombreUsu = '"+nombreUsuEliminar+"'";
+             case 1:    String consultaEliminar = "DELETE FROM usuario WHERE nombreUsu = '"+nombreUsuEliminar+"'";
                         PreparedStatement psEliminar = con.prepareStatement(consultaEliminar);
                         psEliminar.executeUpdate();
                         System.out.println("\t"+nombreUsuEliminar+" ha sido eliminado correctamente.\n");

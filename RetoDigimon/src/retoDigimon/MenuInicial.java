@@ -85,10 +85,10 @@ public class MenuInicial {
                                     consultaTruncar = "DELETE FROM usuario";
                                     psTruncar = con.prepareStatement(consultaTruncar);
                                     psTruncar.executeUpdate();
-                                    /*consultaTruncar = "TRUNCATE TABLE usuario";
+                                    consultaTruncar = "ALTER TABLE usuario AUTO_INCREMENT = 1";
                                     psTruncar = con.prepareStatement(consultaTruncar);
-                                    psTruncar.executeUpdate();*/
-                                    System.out.println("\nTabla 'Usuario' ha sido vaciada correctamente.\n");
+                                    psTruncar.executeUpdate();
+                                    System.out.println("\tTabla 'Usuario' ha sido vaciada correctamente.\n");
                                     break;
                                     
                             case 2: pideMenu(mostrarMenu());
