@@ -34,8 +34,11 @@ public class Usuario {
     
     Usuario(){  
     }
-
+    
     public void creaUsuario(Connection con) throws SQLException {
+        
+        //Solicitamos los datos del nuevo usuario
+        
         setNomUsu(Methods.datoNombreUsu("\tInserta el nombre del usuario: "));
         setContrasenyaUsu(Methods.datoString("\tInserta la contraseña del usuario: "));
         String consultaUSER = "INSERT INTO usuario(nombreUsu, contraseñaUsu) VALUES (?,?)";
@@ -44,6 +47,8 @@ public class Usuario {
         ps.setString(2, contrasenyaUsu);
         ps.executeUpdate();
 
+        //Realizamos la consulta para introducir los valores del nuevo usuario
+        
         int contadorDeDigimones = 0;
         String consultaDigimones = "SELECT nombreDig FROM digimon WHERE nivelDig = 1";
         PreparedStatement ps2 = con.prepareStatement(consultaDigimones);
@@ -85,13 +90,17 @@ public class Usuario {
      
     
     public static void listarUsuarios(Connection con) throws SQLException {
+        
+        //Consulta para que obtener todos los datos de mis usuarios
+        
         String consultaUSER = "SELECT * FROM usuario";
         PreparedStatement ps =  con.prepareStatement(consultaUSER);
         ResultSet rs = ps.executeQuery(consultaUSER);
         
+        //Creación de tabla manual para mostrar los usuarios con sus características
         
         System.out.println("\n######################################################################################################################");
-        System.out.println(" LISTADO DE DIGIMONES");
+        System.out.println(" LISTADO DE USUARIOS");
         System.out.println("######################################################################################################################");
         System.out.printf("%10s %20s %20s %26s %31s", "NOMBRE DE USUARIO", "PARTIDAS JUGADAS", "PARTIDAS GANADAS", "EVOLUCIONES DISPONIBLES", "DIGIMONES DEL USUARIO");
 
@@ -112,10 +121,16 @@ public class Usuario {
     
     
     public void modificarUsu(Connection con) throws SQLException {
+        
+        //Preguntar al usuario qué usuario desea modificar.
+        
         String usuarioIntrod = Methods.datoNombreModificarUsu("\t¿Qué usuario quieres modificar?: ", "El nombre no puede estar vacío");
         String consulta = " SELECT * FROM usuario WHERE nombreUsu = '" + usuarioIntrod + "';";
         PreparedStatement ps = con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
+        
+        //si encuentra algún usuario que establezca los valores de ese usuario al objeto usuario
+        
         if (rs.next()) {
             setNomUsu(rs.getString("nombreUsu"));
             setContrasenyaUsu(rs.getString("contraseñaUsu"));
@@ -168,10 +183,16 @@ public class Usuario {
 
     public void eliminarUsuario(Connection con) throws SQLException {
         String nombreUsuEliminar = Methods.datoNombreModificarUsu("\tIntroduce el usuario a eliminar: ", "El nombre no puede estar vacío");
+        
+        //Buscamos el usuario que desea eliminar en la columna nombreUsu de la tabla usuario
+        
         int opt2;
         String consulta = "SELECT * FROM usuario WHERE nombreUsu ='" + nombreUsuEliminar + "';";
         PreparedStatement ps = con.prepareStatement(consulta);
         ResultSet rs = ps.executeQuery(consulta);
+        
+        //si existe algún usuario con el nombre introducido previamente, decidir si borrar
+        
         if (rs.next()) {
             System.out.println("\t Estas seguro de eliminar el usuario? Se eliminarán todos sus datos: ");
             System.out.println("\t 1) Si, eliminar");
