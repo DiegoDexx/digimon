@@ -20,7 +20,7 @@ public class Usuario {
     int evolucionesUsu;
    
     public void setNomUsu( String nomusu) { this.nombreUsu=nomusu;}
-    public void setContrasenyaUsu( String contraseñausu ) { this.contrasenyaUsu=contraseñausu;  }
+    public void setContrasenyaUsu( String contrasenyaUsu ) { this.contrasenyaUsu=contrasenyaUsu;  }
     public void  setCodigo( int codigo) { this.codigoUsu=codigo; }
     public void setPartidasgan( int partidas ){ this.partidasganaUsu=partidas; }
     public void setEvoluciones( int evoluciones ){ this.evolucionesUsu=evoluciones; }
@@ -41,7 +41,7 @@ public class Usuario {
         
         setNomUsu(Methods.datoNombreUsu("\tInserta el nombre del usuario: "));
         setContrasenyaUsu(Methods.datoString("\tInserta la contraseña del usuario: "));
-        String consultaUSER = "INSERT INTO usuario(nombreUsu, contraseñaUsu) VALUES (?,?)";
+        String consultaUSER = "INSERT INTO usuario(nombreUsu, contrasenyaUsu) VALUES (?,?)";
         PreparedStatement ps = con.prepareStatement(consultaUSER);
         ps.setString(1, nombreUsu);
         ps.setString(2, contrasenyaUsu);
@@ -133,7 +133,7 @@ public class Usuario {
         
         if (rs.next()) {
             setNomUsu(rs.getString("nombreUsu"));
-            setContrasenyaUsu(rs.getString("contraseñaUsu"));
+            setContrasenyaUsu(rs.getString("contrasenyaUsu"));
             setCodigo(rs.getInt("codigoUsu"));
             setPartidasgan(rs.getInt("partidasganaUsu"));
             setEvoluciones(rs.getInt("evolucionesUsu"));
@@ -166,7 +166,7 @@ public class Usuario {
                     break;
 
                 case 5:
-                    String consultaModificar = "UPDATE usuario SET nombreUsu='" + getNombre() + "',contraseñaUsu='" + getContrasenya() + "',partidasganaUsu=" + getPartidas() + ",evolucionesUsu=" + getEvoluciones() + " WHERE nombreUsu ='" + usuarioIntrod + "';";
+                    String consultaModificar = "UPDATE usuario SET nombreUsu='" + getNombre() + "',contrasenyaUsu='" + getContrasenya() + "',partidasganaUsu=" + getPartidas() + ",evolucionesUsu=" + getEvoluciones() + " WHERE nombreUsu ='" + usuarioIntrod + "';";
                     PreparedStatement psModificar = con.prepareStatement(consultaModificar);
                     psModificar.executeUpdate();
                     break;
@@ -219,7 +219,3 @@ public class Usuario {
         con.close();
     }
 }
-       
-       
-       
-       
