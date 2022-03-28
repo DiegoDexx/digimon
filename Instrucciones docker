@@ -6,10 +6,6 @@ docker volume prune
 
 EMPIEZA
 1. docker build . -t mariadb:1
-2. docker volume create maria-db-volume
-3. docker run -d -p 33061:3306 --name mariadb-db  --mount src=mariadb-volume,dst=/var/lib/mysql mariadb:1
-4. docker exec -it mariadb-db mysql -p <-- contraseña:123
-    mariadb> COPIAR PEGAR sql
-    mariadb> chequear si esta ok
-    mariadb> exit;
-5. docker inspect mariadb-db
+2. docker run -d -p 33061:3306 --name mariadb-db  -v volumedb:/var/lib/mysql mariadb:1
+3. docker exec -it mariadb-db mysql -u root -p digimon <-- PARA ACCEDER A LA BASE DE DATOS, CLAVE: 123
+4. docker inspect mariadb-db
